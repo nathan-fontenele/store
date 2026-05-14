@@ -1,13 +1,11 @@
 package com.study.store.repository;
 import com.study.store.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-public interface ProductReposity extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     @Override
     public <S extends Product> S save(S entity);
 
