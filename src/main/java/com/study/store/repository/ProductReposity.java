@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public interface IProductReposity extends JpaRepository<Product, Long> {
+public interface ProductReposity extends JpaRepository<Product, Long> {
     @Override
     public <S extends Product> S save(S entity);
 

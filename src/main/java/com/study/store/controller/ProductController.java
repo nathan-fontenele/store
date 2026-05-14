@@ -1,4 +1,9 @@
 package com.study.store.controller;
+import com.study.store.dto.ProductRequest;
+import com.study.store.dto.ProductResponse;
+import com.study.store.service.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -7,28 +12,36 @@ import java.util.List;
 @RequestMapping("api/products")
 public class ProductController
 {
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
     @GetMapping
-    public List<String> List() {
-        return List.of("Notebook", "Mouse", "Keyboard");
+    public List<ProductResponse> findAll(){
+        return productService.findAll();
     }
 
     @GetMapping("/{id}")
-    public String findById(@PathVariable Long id){
-        return "Product ID: " + id;
+    public ProductResponse findById(@PathVariable Long id){
+        return productService.findById(id);
     }
 
     @PostMapping
-    public String create(@RequestBody String product){
-        return "Created product: " + product;
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductResponse create(@Valid @RequestBody ProductRequest request){
+        return productService.create(request);
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, @RequestBody String product){
-        return "Updated product ID" + id + ": " + product;
+    public ProductResponse update(@PathVariable Long id, @Valid @RequestBody ProductRequest request){
+        return productService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id){
-        return "Removed product id: " + id;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id){
+        productService.delete(id);
     }
 }
